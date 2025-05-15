@@ -11,27 +11,29 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.Data;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 @Data
 @Named
 @ViewScoped
 public class TestView implements Serializable {
 
-    private String string;
-    private Integer integer;
-    private BigDecimal decimal;
-    private LocalDateTime localDateTime;
-    private List<TestObject> list;
+    private TreeNode<TestObject> tableData;
+
+    public TreeNode<TestObject> getTableData() {
+        return tableData;
+    }
 
     @PostConstruct
     public void init() {
-        string = "Welcome to PrimeFaces!!!";
-        list = new ArrayList<>(Arrays.asList(
-                new TestObject("Thriller", "Michael Jackson", 1982),
-                new TestObject("Back in Black", "AC/DC", 1980),
-                new TestObject("The Bodyguard", "Whitney Houston", 1992),
-                new TestObject("The Dark Side of the Moon", "Pink Floyd", 1973)
-        ));
+        TreeNode<TestObject> root = new DefaultTreeNode<TestObject>(null, null);
+        TreeNode<TestObject> node1 = new DefaultTreeNode<TestObject>(new TestObject("Node 1"), root);
+        TreeNode<TestObject> node1_1 = new DefaultTreeNode<TestObject>(new TestObject("Node 1.1"), node1);
+        TreeNode<TestObject> node1_2 = new DefaultTreeNode<TestObject>(new TestObject("Node 1.2"), node1);
+        TreeNode<TestObject> node2 = new DefaultTreeNode<TestObject>(new TestObject("Node 2"), root);
+        TreeNode<TestObject> node2_1 = new DefaultTreeNode<TestObject>(new TestObject("Node 2.1"), node2);
+        TreeNode<TestObject> node2_2 = new DefaultTreeNode<TestObject>(new TestObject("Node 2.2"), node2);
+        tableData = root;
     }
-
 }

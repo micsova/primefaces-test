@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="jakarta.faces.facelets"
-      xmlns:f="jakarta.faces.core"
-      xmlns:h="jakarta.faces.html"
-      xmlns:p="primefaces">
-
-    <h:head>
-        <title>PrimeFaces Test</title>
-        <h:outputScript name="test.js" />
-        <h:outputStylesheet name="test.css" />
-    </h:head>
-    <h:body>
-
-        <h1>#{testView.string}</h1>
-        <h:form id="frmTest">
-
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
+    <script src="https://kit.fontawesome.com/a12732ebb0.js" crossorigin="anonymous"></script>
+    <title>TreeTable Test</title>
+</h:head>
+<h:body>
+    <div id="content" class="w-100">
+        <h:form prependId="false" styleClass="h-100">
+            <div style="margin-top:1.5rem;margin-bottom:1.5rem">
+                <p:commandLink id="updateWrapper" style="padding:1rem; border: 1px solid black" value="Update Wrapper (Breaks Table)" update="wrapper" oncomplete="$('#wrapper').css('display','block')" immediate="true"/>
+                <p:commandLink id="updateTable" style="padding:1rem; border: 1px solid black" value="Update Table (Fixes Table)" update="treeTable" immediate="true"/>
+                <p:commandLink id="expand" widgetVar="expand" style="padding:1rem; border: 1px solid black" value="Expand with JS" disabled="true" onclick="PF('treeTable').expandNode($('#treeTable_node_0'));PF('expand').disable();PF('collapse').enable();"/>
+                <p:commandLink id="collapse" widgetVar="collapse" style="padding:1rem; border: 1px solid black" value="Collapse with JS" disabled="true" onclick="PF('treeTable').collapseNode($('#treeTable_node_0'));PF('expand').enable();PF('collapse').disable()"/>
+            </div>
+            <h:panelGroup layout="block" id="wrapper" style="display:none">
+                <p:treeTable id="treeTable" widgetVar="treeTable" value="#{testView.tableData}" var="node">
+                    <p:column headerText="Node Name">
+                        <h:outputText value="#{node.name}"/>
+                    </p:column>
+                </p:treeTable>
+            </h:panelGroup>
         </h:form>
-
-    </h:body>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $("#wrapper").css('display', 'block');
+            $("#updateTable").click();
+            PF('expand').enable();
+        })
+    </script>
+</h:body>
 </html>
